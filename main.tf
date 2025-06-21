@@ -40,3 +40,4 @@ output "x_bucket_name" {
 output "x_output_bucket_name" {
   value = aws_s3_bucket.output_bucket.bucket
 }
+//prueba
