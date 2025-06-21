@@ -3,13 +3,21 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "input_bucket" {
-  bucket = var.x_bucket
+  bucket        = var.x_bucket
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "output_bucket" {
-  bucket = var.x_output_bucket
+  bucket        = var.x_output_bucket
   force_destroy = true
+}
+
+resource "aws_lambda_permission" "allow_s3" {
+  statement_id  = "AllowS3Invoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.lambda_name
+  principal     = "s3.amazonaws.com"
+  source_arn    = aws_s3_bucket.input_bucket.arn
 }
 
 resource "aws_s3_bucket_notification" "trigger_lambda" {
@@ -22,15 +30,10 @@ resource "aws_s3_bucket_notification" "trigger_lambda" {
     filter_suffix       = ".csv"
   }
 
-  depends_on = [aws_s3_bucket.input_bucket]
-}
-
-resource "aws_lambda_permission" "allow_s3" {
-  statement_id  = "AllowS3Invoke"
-  action        = "lambda:InvokeFunction"
-  function_name = var.lambda_name
-  principal     = "s3.amazonaws.com"
-  source_arn    = aws_s3_bucket.input_bucket.arn
+  depends_on = [
+    aws_s3_bucket.input_bucket,
+    aws_lambda_permission.allow_s3
+  ]
 }
 
 output "x_bucket_name" {
