@@ -2,12 +2,12 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "aws_s3_bucket1" "input_bucket" {
+resource "aws_s3_bucket" "input_bucket" {
   bucket        = var.x_bucket
   force_destroy = true
 }
 
-resource "aws_s3_bucket1" "output_bucket" {
+resource "aws_s3_bucket" "output_bucket" {
   bucket        = var.x_output_bucket
   force_destroy = true
 }
