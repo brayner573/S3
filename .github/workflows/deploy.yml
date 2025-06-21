@@ -28,13 +28,10 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        working-directory: s3_repo
         run: terraform init
 
       - name: Terraform Plan
-        working-directory: s3_repo
         run: terraform plan -var-file="terraform.tfvars"
 
       - name: Terraform Apply
-        working-directory: s3_repo
         run: terraform apply -auto-approve -var-file="terraform.tfvars"
