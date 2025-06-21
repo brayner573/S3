@@ -20,6 +20,10 @@ resource "aws_lambda_permission" "allow_s3" {
   source_arn    = aws_s3_bucket.input_bucket.arn
 }
 
+resource "random_id" "suffix" {
+  byte_length = 4
+}
+
 resource "aws_s3_bucket_notification" "trigger_lambda" {
   bucket = aws_s3_bucket.input_bucket.id
 
