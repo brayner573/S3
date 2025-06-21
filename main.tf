@@ -13,7 +13,7 @@ resource "aws_s3_bucket" "output_bucket" {
 }
 
 resource "aws_lambda_permission" "allow_s3" {
-  statement_id  = "AllowS3Invoke"
+  statement_id  = "AllowS3Invoke-${random_id.suffix.hex}"
   action        = "lambda:InvokeFunction"
   function_name = var.lambda_name
   principal     = "s3.amazonaws.com"
@@ -23,6 +23,7 @@ resource "aws_lambda_permission" "allow_s3" {
 resource "random_id" "suffix" {
   byte_length = 4
 }
+
 
 resource "aws_s3_bucket_notification" "trigger_lambda" {
   bucket = aws_s3_bucket.input_bucket.id
